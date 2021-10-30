@@ -3,6 +3,8 @@
 *.pyo
 settings.py
 
+node_module
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

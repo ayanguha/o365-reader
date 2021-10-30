@@ -1,0 +1,44 @@
+org: ayanguha
+app: o365-reader
+service: o365-reader
+
+frameworkVersion: '2'
+
+
+provider:
+  name: aws
+  runtime: python3.8
+  lambdaHashingVersion: 20201221
+  stage: dev
+  region: ap-southeast-2
+  memorySize: 512
+  timeout: 60
+  profile: ${self:custom.profiles.${sls:stage}}
+  environment:
+    S3_BUCKET: o365-reader
+    S3_TOKEN_FILENAME: token/o365_token.txt
+    S3_DATA_FOLDER: inbound/
+  iam:
+    role:
+      managedPolicies:
+        - "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+plugins:
+  - serverless-python-requirements
+
+functions:
+  rateHandler:
+    handler: handler.run
+    events:
+      # Invoke Lambda function every minute
+      - schedule: rate(1 minute)
+  cronHandler:
+    handler: handler.run
+    events:
+      # Invoke Lambda function every 20 minute from Mon-Fri
+      - schedule: cron(0/2 * ? * MON-FRI *)
+
+
+custom:
+  profiles:
+    dev: o365-reader
+    prod: o365-reader

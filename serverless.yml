@@ -18,6 +18,11 @@ provider:
     S3_BUCKET: o365-reader
     S3_TOKEN_FILENAME: token/o365_token.txt
     S3_DATA_FOLDER: inbound/
+    APP_ID: your_app_id
+    SECRET: your_app_secret
+    TENAND_ID: your_app_tenant_id
+    RESOURCE: your_email
+
   iam:
     role:
       managedPolicies:

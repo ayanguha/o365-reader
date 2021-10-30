@@ -11,15 +11,17 @@ from O365 import Account
 from O365.utils import AWSS3Backend
 import boto3
 
-APP_ID="451e13a1-5367-4c83-ba0c-3a1d5583f100"
-SECRET="M2N7Q~yIhutMiPIYMFIIfEvvoHaMIr5Frb.Sq"
 
-TENAND_ID="1cabbed0-2d14-43cf-9b61-b2a8803eda0b"
-resource="ayan@redclock.onmicrosoft.com"
+
 MAX_SIZE=1000
 INBOUND='inbound'
 S3_BUCKET = os.environ['S3_BUCKET']
 S3_TOKEN_FILENAME = os.environ['S3_TOKEN_FILENAME']
+
+APP_ID = os.environ['APP_ID']
+SECRET = os.environ['SECRET']
+TENAND_ID = os.environ['TENAND_ID']
+RESOURCE = os.environ['RESOURCE']
 
 client = boto3.client('s3')
 
@@ -59,7 +61,7 @@ def get_mailbox():
     token_backend = AWSS3Backend(S3_BUCKET, S3_TOKEN_FILENAME)
     account = Account(credentials, auth_flow_type='credentials', tenant_id=TENAND_ID,token_backend=token_backend)
     account.authenticate()
-    mailbox = account.mailbox(resource=resource)
+    mailbox = account.mailbox(resource=RESOURCE)
 
     return mailbox
 
